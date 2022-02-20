@@ -94,50 +94,39 @@ button {
 	background-color: #eeeeee;
 }
 
-.ok_button {
+#enter_button {
 	background-color: #00EE00;
 	min-width: 40%;
 }
 
-.del_button {
+#enter_button:disabled,
+#enter_button[disabled] {
+	background-color: #cccccc;
+}
+
+#delete_button {
 	background-color: #FFaaaa;
 }
 
-.insert_button {
+#delete_button:disabled,
+#delete_button[disabled] {
+	background-color: #cccccc;
+}
+
+#insert_button {
 	background-color: #aaaaFF;
 }
 
-.more_button {
+#insert_button:disabled,
+#insert_button[disabled] {
+	background-color: #cccccc;
+}
+
+#game_button {
 	background-color: #8899aa;
-	width: 100%;
 }
 
-.input_more {
-	position: relative;
-	display: inline-block;
-	min-width: 10%;
-}
-
-#popup_menu {
-	display: none;
-	position: absolute;
-	bottom: 1px;
-	left: 0px;
-	min-width: 100%;
-	border-radius: 2px;
-	box-shadow: 1px 1px 1px black;
-	background-color: #8899aa;
-	z-index: 2;
-}
-
-#popup_menu a {
-	color: black;
-	padding: 8px 16px;
-	text-decoration: none;
-	display: block;
-}
-
-#game_info {
+#game_settings {
 	position: absolute;
 	top: 0px;
 	width: 100%;
@@ -145,4 +134,25 @@ button {
 	background-color: lightgrey;
 	z-index: 2;
 	display: none;
+}
+
+#game_settings input {
+	color: black;
+	background-color: white;
+	border: solid 1px;
+	border-radius: 0;
+}
+
+.game_group {
+	width: 100%;
+}
+
+.game_group_label {
+	float: left;
+	min-width: 30%;
+}
+
+.ok_button {
+	background-color: #00EE00;
+	min-width: 40%;
 }

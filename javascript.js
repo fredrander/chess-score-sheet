@@ -25,6 +25,26 @@ function setCurrentMove( move ) {
 	setMove( currentHalfMoveIndex, move );
 }
 
+function currentMoveIsAtEnd() {
+	for ( let i = currentHalfMoveIndex; i < nbOfHalfMoves; ++i ) {
+		let m = getMove( i );
+		if ( m != "" ) {
+			return false;
+		}
+	}
+	return true;
+}
+
+function moveExist() {
+	for ( let i = 0; i < nbOfHalfMoves; ++i ) {
+		let m = getMove( i );
+		if ( m != "" ) {
+			return true;
+		}
+	}
+	return false;
+}
+
 function focusCurrentMove() {
 	let cell = getCell( currentHalfMoveIndex );
 	cell.className = "moves_cell_focus";
@@ -53,22 +73,31 @@ function addRow( moveNum ) {
 	cell0.innerHTML = moveNum.toString();
 }
 
-function addRows( startMove, cnt ) {
+function addRows( cnt ) {
+	let startMove = (nbOfHalfMoves / 2) + 1;
 	for ( let i = startMove; i < startMove + cnt; ++i ) {
 		addRow( i );
 	}
+	nbOfHalfMoves += ( cnt * 2 );
 }
 
 function confirmMove() {
 	if ( getCurrentMove() != "" ) {
 		unfocusCurrentMove();
 		currentHalfMoveIndex++;
+		if ( currentHalfMoveIndex >= nbOfHalfMoves ) {
+			addRows( 20 );
+		}
 		focusCurrentMove();
 		scrollToCurrentMove();
 	}
 }
 
 function insertMove() {
+	let end = getMove( nbOfHalfMoves - 1 );
+	if ( end != "" ) {
+		addRows( 20 );
+	}
 	for ( let i = nbOfHalfMoves - 1; i > currentHalfMoveIndex; --i ) {
 		let tmp = getMove( i - 1 );
 		setMove( i, tmp );
@@ -94,15 +123,30 @@ function deleteMove() {
 	}
 }
 
-function popupMenu() {
-	let popup = document.getElementById( "popup_menu" );
-	popup.style.display = "block";
+function updateEnabled() {
+	let enter = document.getElementById( "enter_button" );
+	enter.disabled = ( getCurrentMove() == "" );
+
+	let insert = document.getElementById( "insert_button" );
+	insert.disabled = currentMoveIsAtEnd();
+
+	let del = document.getElementById( "delete_button" );
+	del.disabled = ( !moveExist() );
+}
+
+function gameSettings( show ) {
+	let settings = document.getElementById( "game_settings" );
+	if ( show ) {
+		settings.style.display = "block";
+	} else {
+		settings.style.display = "none";
+	}
 }
 
 function handleButton( btnValue ) {
 	switch ( btnValue ) {
 	
-		case "ok":
+		case "enter":
 			confirmMove();
 			break;
 
@@ -114,8 +158,12 @@ function handleButton( btnValue ) {
 			deleteMove();
 			break;
 
-		case "more":
-			popupMenu();
+		case "game":
+			gameSettings( true );
+			break;
+
+		case "ok":
+			gameSettings( false );
 			break;
 
 		default:
@@ -123,7 +171,9 @@ function handleButton( btnValue ) {
 			val += btnValue;
 			setCurrentMove( val );
 			break;
-	}	
+	}
+
+	updateEnabled();
 }
 
 function handleTableClick( target ) {
@@ -138,15 +188,19 @@ function handleTableClick( target ) {
 	unfocusCurrentMove();
 	currentHalfMoveIndex = halfMoveIndex;
 	focusCurrentMove();
+	updateEnabled();
 }
 
 function init() {
-	nbOfHalfMoves = ( 80 * 2 );
-	addRows( 1, nbOfHalfMoves / 2 );
+	addRows( 60 );
 	focusCurrentMove();
+	updateEnabled();
 
 	let inputParent = document.getElementById( "input" );
 	inputParent.addEventListener( "click", function( event ) {
+		if ( event.target.type != "button" ) {
+			return;
+		}
 		let btnValue = event.target.getAttribute( "data-value" );
 		if ( !btnValue ) {
 			btnValue = event.target.innerHTML;
@@ -158,4 +212,6 @@ function init() {
 	movesParent.addEventListener( "click", function( event ) {
 		handleTableClick( event.target );
 	});
+
+	let gameDate = document.getElementById( "input_date" ).valueAsDate = new Date();
 }
