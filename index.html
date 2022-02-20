@@ -5,123 +5,134 @@
 	</head>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<body>
-		<div id="header">
-			<div id="header_white">
-				<div id="header_white_name">Vit</div>
+		<div class="container_all">
+			<div id="header">
+				<div id="header_white">
+					<div id="header_white_name">Vit</div>
+				</div>
+				<div id="header_black">
+					<div id="header_black_name">Svart</div>
+				</div>
 			</div>
-			<div id="header_black">
-				<div id="header_black_name">Svart</div>
+			<div id="moves">
+				<table id="moves_table">
+				</table>
+			</div>
+			<div id="input">
+				<div class="input_group">
+					<button type="button" class="input_button">S</button>
+					<button type="button" class="input_button">L</button>
+					<button type="button" class="input_button">T</button>
+					<button type="button" class="input_button">D</button>
+					<button type="button" class="input_button">K</button>
+				</div>
+				<div class="input_group">
+					<button type="button" class="input_button">a</button>
+					<button type="button" class="input_button">b</button>
+					<button type="button" class="input_button">c</button>
+					<button type="button" class="input_button">d</button>
+					<button type="button" class="input_button">e</button>
+					<button type="button" class="input_button">f</button>
+					<button type="button" class="input_button">g</button>
+					<button type="button" class="input_button">h</button>
+				</div>
+				<div class="input_group">
+					<button type="button" class="input_button">1</button>
+					<button type="button" class="input_button">2</button>
+					<button type="button" class="input_button">3</button>
+					<button type="button" class="input_button">4</button>
+					<button type="button" class="input_button">5</button>
+					<button type="button" class="input_button">6</button>
+					<button type="button" class="input_button">7</button>
+					<button type="button" class="input_button">8</button>
+				</div>
+				<div class="input_group">
+					<button type="button" class="input_button">x</button>
+					<button type="button" class="input_button">+</button>
+					<button type="button" class="input_button">=</button>
+					<button type="button" class="input_button">#</button>
+					<button type="button" class="input_button">O-O</button>
+					<button type="button" class="input_button">O-O-O</button>
+				</div>
+				<div class="input_group">
+					<button type="button" id="enter_button" data-value="enter">Enter</button>
+					<button type="button" id="insert_button" data-value="ins">Ins</button>
+					<button type="button" id="delete_button" data-value="del">Del</button>
+					<button type="button" id="game_button" data-value="game">Game...</button>
+				</div>
+
+				<div id="game_settings">
+					<div class="game_group">
+						<div class="game_group_label">
+							<label for="input_white">Vit:</label>
+						</div>
+						<input type="text" id="input_white"/>
+					</div>
+					<div class="game_group">
+						<div class="game_group_label">
+							<label for="input_white_elo">Vit Elo:</label>
+						</div>
+						<input type="number" min="0" max="9999" id="input_white_elo"/>
+					</div>
+					<div class="game_group">
+						<div class="game_group_label">
+							<label for="input_black">Svart:</label>
+						</div>
+						<input type="text" id="input_black"/>
+					</div>
+					<div class="game_group">
+						<div class="game_group_label">
+							<label for="input_black_elo">Svart Elo:</label>
+						</div>
+						<input type="number" min="0" max="9999" id="input_black_elo"/>
+					</div>
+					<div class="game_group">
+						<div class="game_group_label">
+							<label for="input_date">Datum:</label>
+						</div>
+						<input type="date" id="input_date"/>
+					</div>
+					<div class="game_group">
+						<div class="game_group_label">
+							<label for="input_site">Plats:</label>
+						</div>
+						<input type="text" id="input_site"/>
+					</div>
+					<div class="game_group">
+						<div class="game_group_label">
+							<label for="input_event">T&auml;vling:</label>
+						</div>
+						<input type="text" id="input_event"/>
+					</div>
+					<div class="game_group">
+						<div class="game_group_label">
+							<label for="input_round">Rond:</label>
+						</div>
+						<input type="number" min="0" max="999" id="input_round"/>
+					</div>
+					<div class="game_group">
+						<div class="game_group_label">
+							<label for="input_time_control">Tidskontroll:</label>
+						</div>
+						<input type="text" id="input_time_control"/>
+					</div>
+					<div class="game_group">
+						<div class="game_group_label">
+							<label for="input_result">Resultat:</label>
+						</div>
+						<select id="input_result">
+							<option>*</option>
+							<option>1-0</option>
+							<option>1/2-1/2</option>
+							<option>0-1</option>
+						</select>
+					</div>
+					<div class="game_group">
+						<button type="button" class="ok_button" data-value="ok">OK</button>
+					</div>
+				</div>
 			</div>
 		</div>
-		<div id="moves">
-			<table id="moves_table">
-			</table>
-		</div>
-		<div id="input">
-			<div class="input_group">
-				<button type="button" class="input_button">S</button>
-				<button type="button" class="input_button">L</button>
-				<button type="button" class="input_button">T</button>
-				<button type="button" class="input_button">D</button>
-				<button type="button" class="input_button">K</button>
-			</div>
-			<div class="input_group">
-				<button type="button" class="input_button">a</button>
-				<button type="button" class="input_button">b</button>
-				<button type="button" class="input_button">c</button>
-				<button type="button" class="input_button">d</button>
-				<button type="button" class="input_button">e</button>
-				<button type="button" class="input_button">f</button>
-				<button type="button" class="input_button">g</button>
-				<button type="button" class="input_button">h</button>
-			</div>
-			<div class="input_group">
-				<button type="button" class="input_button">1</button>
-				<button type="button" class="input_button">2</button>
-				<button type="button" class="input_button">3</button>
-				<button type="button" class="input_button">4</button>
-				<button type="button" class="input_button">5</button>
-				<button type="button" class="input_button">6</button>
-				<button type="button" class="input_button">7</button>
-				<button type="button" class="input_button">8</button>
-			</div>
-			<div class="input_group">
-				<button type="button" class="input_button">x</button>
-				<button type="button" class="input_button">+</button>
-				<button type="button" class="input_button">=</button>
-				<button type="button" class="input_button">#</button>
-				<button type="button" class="input_button">O-O</button>
-				<button type="button" class="input_button">O-O-O</button>
-			</div>
-			<div class="input_group">
-				<button type="button" id="enter_button" data-value="enter">Enter</button>
-				<button type="button" id="insert_button" data-value="ins">Ins</button>
-				<button type="button" id="delete_button" data-value="del">Del</button>
-				<button type="button" id="game_button" data-value="game">Game...</button>
-			</div>
-
-			<div id="game_settings">
-				<div class="game_group">
-					<div class="game_group_label">
-						<label for="input_white">Vit:</label>
-					</div>
-					<input type="text" id="input_white"/>
-				</div>
-				<div class="game_group">
-					<div class="game_group_label">
-						<label for="input_white_elo">R-tal:</label>
-					</div>
-					<input type="number" min="0" max="9999" id="input_white_elo"/>
-				</div>
-				<div class="game_group">
-					<div class="game_group_label">
-						<label for="input_black">Svart:</label>
-					</div>
-					<input type="text" id="input_black"/>
-				</div>
-				<div class="game_group">
-					<div class="game_group_label">
-						<label for="input_black_elo">R-tal:</label>
-					</div>
-					<input type="number" min="0" max="9999" id="input_black_elo"/>
-				</div>
-				<div class="game_group">
-					<div class="game_group_label">
-						<label for="input_date">Datum:</label>
-					</div>
-					<input type="date" id="input_date"/>
-				</div>
-				<div class="game_group">
-					<div class="game_group_label">
-						<label for="input_site">Plats:</label>
-					</div>
-					<input type="text" id="input_site"/>
-				</div>
-				<div class="game_group">
-					<div class="game_group_label">
-						<label for="input_event">T&auml;vling:</label>
-					</div>
-					<input type="text" id="input_event"/>
-				</div>
-				<div class="game_group">
-					<div class="game_group_label">
-						<label for="input_round">Rond:</label>
-					</div>
-					<input type="number" min="0" max="999" id="input_round"/>
-				</div>
-				<div class="game_group">
-					<div class="game_group_label">
-						<label for="input_time_control">Tidskontroll:</label>
-					</div>
-					<input type="text" id="input_time_control"/>
-				</div>
-				<div class="game_group">
-					<button type="button" class="ok_button" data-value="ok">OK</button>
-				</div>
-			</div>
-
-		</div>
-
 		<script src="javascript.js?<?=time()?>"></script>
 		<script>
 			window.addEventListener( "load", function( event ) {

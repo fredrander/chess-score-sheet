@@ -3,6 +3,11 @@ html {
 	touch-action: manipulation;
 }
 
+.container_all {
+	margin: auto;
+	max-width: 640px;
+}
+
 #header {
 	width: 100%;
 	overflow: hidden;
@@ -44,6 +49,7 @@ html {
 #moves {
 	margin-top: 2px;
 	margin-bottom: 8px;
+	width: 100%;
 	height: 50%;
 	overflow-y: scroll;
 	background-color: white;
@@ -72,6 +78,10 @@ html {
 	text-align: center;
 	width: 40%;
 	background-color: #eeeeee;
+}
+
+#input {
+	width: 100%;
 }
 
 .input_group {
@@ -136,7 +146,8 @@ button {
 	display: none;
 }
 
-#game_settings input {
+#game_settings input,
+#game_settings select {
 	color: black;
 	background-color: white;
 	border: solid 1px;
