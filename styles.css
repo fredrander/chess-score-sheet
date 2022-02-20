@@ -1,0 +1,148 @@
+html {
+	background-color: lightgrey;
+	touch-action: manipulation;
+}
+
+#header {
+	width: 100%;
+	overflow: hidden;
+	border: 1px solid;
+}
+
+#header_white {
+	width: 50%;
+	max-width: 50%;
+	float: left;
+	background-color: white;
+}
+
+#header_white_name {
+	color: black;
+	text-align: left;
+	text-overflow: ellipsis;
+	overflow-x: hidden;
+	white-space: nowrap;
+	padding: 0 2px 0 4px;
+}
+
+#header_black {
+	width: 50%;
+	max-width: 50%;
+	float: left;
+	background-color: black;
+}
+
+#header_black_name {
+	color: white;
+	text-align: left;
+	text-overflow:ellipsis;
+	overflow-x: hidden;
+	white-space: nowrap;
+	padding: 0 2px 0 4px;
+}
+
+#moves {
+	margin-top: 2px;
+	margin-bottom: 8px;
+	height: 50%;
+	overflow-y: scroll;
+	background-color: white;
+}
+
+#moves_table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.moves_cell_num {
+	border: 1px solid;
+	text-align: center;
+	width: 20%;
+}
+
+.moves_cell {
+	border: 1px solid;
+	text-align: center;
+	width: 40%;
+	background-color: white;
+}
+
+.moves_cell_focus {
+	border: 1px solid;
+	text-align: center;
+	width: 40%;
+	background-color: #eeeeee;
+}
+
+.input_group {
+	float: left;
+	margin-bottom: 8px;
+	width: 100%;
+}
+
+button {
+	text-align: center;
+	color: black;
+	border: none;
+	border-radius: 2px;
+	box-shadow: 1px 1px 1px black;
+	line-height: 2.5;
+	min-width: 10%;
+}
+
+.input_button {
+	background-color: #eeeeee;
+}
+
+.ok_button {
+	background-color: #00EE00;
+	min-width: 40%;
+}
+
+.del_button {
+	background-color: #FFaaaa;
+}
+
+.insert_button {
+	background-color: #aaaaFF;
+}
+
+.more_button {
+	background-color: #8899aa;
+	width: 100%;
+}
+
+.input_more {
+	position: relative;
+	display: inline-block;
+	min-width: 10%;
+}
+
+#popup_menu {
+	display: none;
+	position: absolute;
+	bottom: 1px;
+	left: 0px;
+	min-width: 100%;
+	border-radius: 2px;
+	box-shadow: 1px 1px 1px black;
+	background-color: #8899aa;
+	z-index: 2;
+}
+
+#popup_menu a {
+	color: black;
+	padding: 8px 16px;
+	text-decoration: none;
+	display: block;
+}
+
+#game_info {
+	position: absolute;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	background-color: lightgrey;
+	z-index: 2;
+	display: none;
+}

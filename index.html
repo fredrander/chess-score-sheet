@@ -1,0 +1,98 @@
+<html>
+	<head>
+		<link href="styles.css?<?=time()?>" rel="stylesheet">
+		<link rel="icon" href="favicon.png">
+	</head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<body>
+		<div id="header">
+			<div id="header_white">
+				<div id="header_white_name">Vit</div>
+			</div>
+			<div id="header_black">
+				<div id="header_black_name">Svart</div>
+			</div>
+		</div>
+		<div id="moves">
+			<table id="moves_table">
+			</table>
+		</div>
+		<div id="input">
+			<div class="input_group">
+				<button type="button" class="input_button">S</button>
+				<button type="button" class="input_button">L</button>
+				<button type="button" class="input_button">T</button>
+				<button type="button" class="input_button">D</button>
+				<button type="button" class="input_button">K</button>
+			</div>
+			<div class="input_group">
+				<button type="button" class="input_button">a</button>
+				<button type="button" class="input_button">b</button>
+				<button type="button" class="input_button">c</button>
+				<button type="button" class="input_button">d</button>
+				<button type="button" class="input_button">e</button>
+				<button type="button" class="input_button">f</button>
+				<button type="button" class="input_button">g</button>
+				<button type="button" class="input_button">h</button>
+			</div>
+			<div class="input_group">
+				<button type="button" class="input_button">1</button>
+				<button type="button" class="input_button">2</button>
+				<button type="button" class="input_button">3</button>
+				<button type="button" class="input_button">4</button>
+				<button type="button" class="input_button">5</button>
+				<button type="button" class="input_button">6</button>
+				<button type="button" class="input_button">7</button>
+				<button type="button" class="input_button">8</button>
+			</div>
+			<div class="input_group">
+				<button type="button" class="input_button">x</button>
+				<button type="button" class="input_button">+</button>
+				<button type="button" class="input_button">=</button>
+				<button type="button" class="input_button">#</button>
+				<button type="button" class="input_button">O-O</button>
+				<button type="button" class="input_button">O-O-O</button>
+			</div>
+			<div class="input_group">
+				<button type="button" class="ok_button" data-value="ok">OK</button>
+				<button type="button" class="insert_button" data-value="ins">Ins</button>
+				<button type="button" class="del_button" data-value="del">Del</button>
+				<div class="input_more">
+					<button type="button" class="more_button" data-value="more">...</button>
+					<div id="popup_menu">
+						<a href="#">Edit...</a>
+						<a href="#">End...</a>
+						<a href="#">New...</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="game_info">
+			<label for="input_white">Vit:<label>
+			<input type="text" id="input_white"/>
+			<label for="input_white_elo">R-tal:<label>
+			<input type="number" min="0" max="9999" id="input_white_elo"/>
+			<label for="input_black">Svart:<label>
+			<input type="text" id="input_black"/>
+			<label for="input_black_elo">R-tal:<label>
+			<input type="number" min="0" max="9999" id="input_black_elo"/>
+			<label for="input_site">Plats:<label>
+			<input type="text" id="input_site"/>
+			<label for="input_event">T&auml;vling:<label>
+			<input type="text" id="input_event"/>
+			<label for="input_round">Rond:<label>
+			<input type="number" min="0" max="999" id="input_round"/>
+			<label for="input_time_control">Tidskontroll:<label>
+			<input type="text" id="input_time_control"/>
+		</div>
+
+		<script src="javascript.js?<?=time()?>"></script>
+		<script>
+			window.addEventListener( "load", function( event ) {
+        			init();
+			});
+		</script>
+
+	</body>
+</html>
