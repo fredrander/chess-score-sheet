@@ -98,6 +98,7 @@ button {
 	box-shadow: 1px 1px 1px black;
 	line-height: 2.5;
 	min-width: 10%;
+	font-weight: normal;
 }
 
 .input_button {
@@ -166,4 +167,8 @@ button {
 .ok_button {
 	background-color: #00EE00;
 	min-width: 40%;
+}
+
+.new_button {
+	background-color: #FFaaaa;
 }

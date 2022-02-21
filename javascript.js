@@ -81,6 +81,11 @@ function addRows( cnt ) {
 	nbOfHalfMoves += ( cnt * 2 );
 }
 
+function deleteAllRows() {
+	let tab = document.getElementById( "moves_table" );
+	tab.innerHTML = "";
+}
+
 function confirmMove() {
 	if ( getCurrentMove() != "" ) {
 		unfocusCurrentMove();
@@ -109,8 +114,7 @@ function deleteMove() {
 	if ( getCurrentMove() != "" ) {
 		setCurrentMove( "" );
 		return;
-	} 
-	
+	}
 	for ( let i = currentHalfMoveIndex; i < nbOfHalfMoves - 2; ++i ) {
 		let tmp = getMove( i + 1 );
 		setMove( i, tmp );
@@ -131,16 +135,79 @@ function updateEnabled() {
 	insert.disabled = currentMoveIsAtEnd();
 
 	let del = document.getElementById( "delete_button" );
-	del.disabled = ( !moveExist() );
+	del.disabled = ( !moveExist() && currentHalfMoveIndex == 0 );
+}
+
+function updateHeader() {
+	let white = getStoreValueStr( "white", "Vit" );
+	if ( white.length < 1 ) {
+		white = "Vit";
+	}
+	let black = getStoreValueStr( "black", "Svart" );
+	if ( black.length < 1 ) {
+		black = "Svart";
+	}
+	let headerWhite = document.getElementById( "header_white_name" );
+	let headerBlack = document.getElementById( "header_black_name" );
+	headerWhite.innerHTML = white;
+	headerBlack.innerHTML = black
+}
+
+function getStoreValueStr( key, defaultValue ) {
+	let store = window.sessionStorage;
+	let result = store.getItem( key );
+	if ( result == null ) {
+		result = defaultValue;
+	}
+	return result;
+}
+
+function getStoreValueNum( key, defaultValue ) {
+	let resultStr = getStoreValueStr( key, null );
+	let result = defaultValue;
+	if ( resultStr != null ) {
+		result = parseInt( resultStr );
+	}
+	return result;
+}
+
+function setStoreValue( key, value ) {
+	let store = window.sessionStorage;
+	store.setItem( key, value );
 }
 
 function gameSettings( show ) {
 	let settings = document.getElementById( "game_settings" );
 	if ( show ) {
+		let form = document.getElementById( "game_settings_form" );
+		let elements = form.elements;
+
+		elements.white.value = getStoreValueStr( "white", "" );
+		elements.white_elo.value = getStoreValueNum( "white_elo", null );
+		elements.black.value = getStoreValueStr( "black", "" );
+		elements.black_elo.value = getStoreValueNum( "black_elo", null );
+		elements.date.valueAsDate = getStoreValueStr( "date", new Date() );
+		elements.site.value = getStoreValueStr( "site", "" );
+		elements.event.value = getStoreValueStr( "event", "" );
+		elements.round.value = getStoreValueNum( "round", null );
+		elements.time_control.value = getStoreValueStr( "time_control", "" );
+		elements.result.value = getStoreValueStr( "result", "*" );
+
 		settings.style.display = "block";
 	} else {
 		settings.style.display = "none";
 	}
+}
+
+function newGame() {
+	let confirmNew = confirm( "Delete current game and start a new?" );
+	if ( !confirmNew ) {
+		return;
+	}
+	let store = window.sessionStorage;
+	store.clear();
+	deleteAllRows();
+	location.reload(); 
 }
 
 function handleButton( btnValue ) {
@@ -166,6 +233,10 @@ function handleButton( btnValue ) {
 			gameSettings( false );
 			break;
 
+		case "new":
+			newGame();
+			break;
+
 		default:
 			let val = getCurrentMove();
 			val += btnValue;
@@ -174,6 +245,9 @@ function handleButton( btnValue ) {
 	}
 
 	updateEnabled();
+	setStoreValue( "currentHalfMoveIndex", currentHalfMoveIndex );
+	setStoreValue( "nbOfHalfMoves", nbOfHalfMoves );
+	storeMoves();
 }
 
 function handleTableClick( target ) {
@@ -183,19 +257,61 @@ function handleTableClick( target ) {
 	if ( cellIndex < 1 ) {
 		return;
 	}
-
 	let halfMoveIndex = ( rowIndex * 2 ) + ( cellIndex - 1 );
 	unfocusCurrentMove();
 	currentHalfMoveIndex = halfMoveIndex;
 	focusCurrentMove();
 	updateEnabled();
+	setStoreValue( "currentHalfMoveIndex", currentHalfMoveIndex );
 }
 
-function init() {
-	addRows( 60 );
-	focusCurrentMove();
-	updateEnabled();
+function handleForm( event ) {
+	if ( event.preventDefault ) {
+		event.preventDefault();
+	}
+	let elements = event.target.elements;
+	
+	setStoreValue( "white", elements.white.value );
+	setStoreValue( "white_elo", elements.white_elo.value );
+	setStoreValue( "black", elements.black.value );
+	setStoreValue( "black_elo", elements.black_elo.value );
+	setStoreValue( "date", elements.date.valueAsDate );
+	setStoreValue( "site", elements.site.value );
+	setStoreValue( "event", elements.event.value );
+	setStoreValue( "round", elements.round.value );
+	setStoreValue( "time_control", elements.time_control.value );
+	setStoreValue( "result", elements.result.value );
 
+	updateHeader();
+	gameSettings( false );
+}
+
+function storeMoves() {
+	let moves = new Array();
+	let lastMove = -1;
+	for ( let i = 0; i < nbOfHalfMoves; ++i ) {
+		let m = getMove( i );
+		moves[ i ] = m;
+		if ( m != "" ) {
+			lastMove = i;
+		}
+	}
+	moves.length = lastMove + 1;
+	setStoreValue( "moves", JSON.stringify( moves ) );
+}
+
+function restoreMoves() {
+	let movesStr = getStoreValueStr( "moves", null );
+	if ( movesStr == null ) {
+		return;
+	}
+	let moves = JSON.parse( movesStr );
+	for ( let i = 0; i < moves.length; ++i ) {
+		setMove( i, moves[ i ] );
+	}
+}
+
+function setupEventHandlers() {
 	let inputParent = document.getElementById( "input" );
 	inputParent.addEventListener( "click", function( event ) {
 		if ( event.target.type != "button" ) {
@@ -213,5 +329,23 @@ function init() {
 		handleTableClick( event.target );
 	});
 
-	let gameDate = document.getElementById( "input_date" ).valueAsDate = new Date();
+	let gameForm = document.getElementById( "game_settings_form" );
+	if ( gameForm.attachEvent ) {
+		gameForm.attachEvent( "submit", handleForm );
+	} else {
+		gameForm.addEventListener( "submit", handleForm );
+	}
+}
+
+function init() {
+	updateHeader();
+	setupEventHandlers();
+
+	currentHalfMoveIndex = getStoreValueNum( "currentHalfMoveIndex", 0 );
+	let tmpNbOfHalfMoves = getStoreValueNum( "nbOfHalfMoves", 120 );
+	addRows( tmpNbOfHalfMoves / 2 );
+	restoreMoves();
+	focusCurrentMove();
+	scrollToCurrentMove();
+	updateEnabled();
 }
