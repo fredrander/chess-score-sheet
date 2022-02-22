@@ -147,10 +147,12 @@ function updateHeader() {
 	if ( black.length < 1 ) {
 		black = "Svart";
 	}
+	/*
 	let headerWhite = document.getElementById( "header_white_name" );
 	let headerBlack = document.getElementById( "header_black_name" );
 	headerWhite.innerHTML = white;
 	headerBlack.innerHTML = black
+	*/
 }
 
 function getStoreValueStr( key, defaultValue ) {

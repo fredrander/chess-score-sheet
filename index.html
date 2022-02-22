@@ -6,16 +6,17 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<body>
 		<div class="container_all">
-			<div id="header">
-				<div id="header_white">
-					<div id="header_white_name">Vit</div>
-				</div>
-				<div id="header_black">
-					<div id="header_black_name">Svart</div>
-				</div>
-			</div>
 			<div id="moves">
 				<table id="moves_table">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th class="moves_head_white">Vit</th>
+							<th class="moves_head_black">Svart</th>
+						</tr>
+						<tbody>
+						</tbody>
+					</thead>
 				</table>
 			</div>
 			<div id="input">
@@ -62,77 +63,81 @@
 				</div>
 
 				<div id="game_settings">
-					<form id="game_settings_form">
-						<div class="game_group">
-							<div class="game_group_label">
-								<label for="input_white">Vit:</label>
+					<div id="game_settings_content">
+						<form id="game_settings_form">
+							<div class="game_group">
+								<div class="game_group_label">
+									<label for="input_white">Vit:</label>
+								</div>
+								<input type="text" id="input_white" name="white"/>
 							</div>
-							<input type="text" id="input_white" name="white"/>
-						</div>
-						<div class="game_group">
-							<div class="game_group_label">
-								<label for="input_white_elo">Vit Elo:</label>
+							<div class="game_group">
+								<div class="game_group_label">
+									<label for="input_white_elo">Vit Elo:</label>
+								</div>
+								<input type="number" id="input_white_elo" name="white_elo" min="0" max="9999" />
 							</div>
-							<input type="number" id="input_white_elo" name="white_elo" min="0" max="9999" />
-						</div>
-						<div class="game_group">
-							<div class="game_group_label">
-								<label for="input_black">Svart:</label>
+							<div class="game_group">
+								<div class="game_group_label">
+									<label for="input_black">Svart:</label>
+								</div>
+								<input type="text" id="input_black" name="black"/>
 							</div>
-							<input type="text" id="input_black" name="black"/>
-						</div>
-						<div class="game_group">
-							<div class="game_group_label">
-								<label for="input_black_elo">Svart Elo:</label>
+							<div class="game_group">
+								<div class="game_group_label">
+									<label for="input_black_elo">Svart Elo:</label>
+								</div>
+								<input type="number" id="input_black_elo" name="black_elo" min="0" max="9999"/>
 							</div>
-							<input type="number" id="input_black_elo" name="black_elo" min="0" max="9999"/>
-						</div>
-						<div class="game_group">
-							<div class="game_group_label">
-								<label for="input_date">Datum:</label>
+							<div class="game_group">
+								<div class="game_group_label">
+									<label for="input_date">Datum:</label>
+								</div>
+								<input type="date" id="input_date" name="date"/>
 							</div>
-							<input type="date" id="input_date" name="date"/>
-						</div>
-						<div class="game_group">
-							<div class="game_group_label">
-								<label for="input_site">Plats:</label>
+							<div class="game_group">
+								<div class="game_group_label">
+									<label for="input_site">Plats:</label>
+								</div>
+								<input type="text" id="input_site" name="site"/>
 							</div>
-							<input type="text" id="input_site" name="site"/>
-						</div>
-						<div class="game_group">
-							<div class="game_group_label">
-								<label for="input_event">T&auml;vling:</label>
+							<div class="game_group">
+								<div class="game_group_label">
+									<label for="input_event">T&auml;vling:</label>
+								</div>
+								<input type="text" id="input_event" name="event"/>
 							</div>
-							<input type="text" id="input_event" name="event"/>
-						</div>
-						<div class="game_group">
-							<div class="game_group_label">
-								<label for="input_round">Rond:</label>
+							<div class="game_group">
+								<div class="game_group_label">
+									<label for="input_round">Rond:</label>
+								</div>
+								<input type="number" id="input_round" name="round" min="0" max="999"/>
 							</div>
-							<input type="number" id="input_round" name="round" min="0" max="999"/>
-						</div>
-						<div class="game_group">
-							<div class="game_group_label">
-								<label for="input_time_control">Tidskontroll:</label>
+							<div class="game_group">
+								<div class="game_group_label">
+									<label for="input_time_control">Tidskontroll:</label>
+								</div>
+								<input type="text" id="input_time_control" name="time_control"/>
 							</div>
-							<input type="text" id="input_time_control" name="time_control"/>
-						</div>
-						<div class="game_group">
-							<div class="game_group_label">
-								<label for="input_result">Resultat:</label>
+							<div class="game_group">
+								<div class="game_group_label">
+									<label for="input_result">Resultat:</label>
+								</div>
+								<select id="input_result" name="result">
+									<option>*</option>
+									<option>1-0</option>
+									<option>1/2-1/2</option>
+									<option>0-1</option>
+								</select>
 							</div>
-							<select id="input_result" name="result">
-								<option>*</option>
-								<option>1-0</option>
-								<option>1/2-1/2</option>
-								<option>0-1</option>
-							</select>
-						</div>
-						<div class="game_group">
-							<button type="submit" class="ok_button" data-value="ok">OK</button>
-							<button type="button" class="new_button" data-value="new">New...</button>
-						</div>
-					</form>
+							<div class="game_group">
+								<div class="game_group_commands">
+									<button type="button" class="new_button" data-value="new">New...</button>
+									<button type="submit" class="ok_button" data-value="ok">OK</button>
+								</div>
+							</div>
+						</form>
+					</div>
 				</div>
 			</div>
 		</div>
