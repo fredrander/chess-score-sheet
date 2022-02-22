@@ -1,32 +1,32 @@
-let currentHalfMoveIndex = 0;
-let nbOfHalfMoves = 0;
+let currentPly = 0;
+let nbOfPlies = 0;
 
-function getCell( halfMoveIndex ) {
+function getCell( ply ) {
 	let tab = document.getElementById( "moves_table" );
-	let rowIndex = Math.floor( halfMoveIndex / 2 );
-	let cellIndex = 1 + ( halfMoveIndex % 2 );
+	let rowIndex = Math.floor( ply / 2 );
+	let cellIndex = 1 + ( ply % 2 );
 	let cell = tab.rows[ rowIndex ].cells[ cellIndex ];
 	return cell;
 }
 
-function getMove( halfMoveIndex ) {
-	return getCell( halfMoveIndex ).innerHTML;
+function getMove( ply ) {
+	return getCell( ply ).innerHTML;
 }
 
-function setMove( halfMoveIndex, move ) {
-	getCell( halfMoveIndex ).innerHTML = move;
+function setMove( ply, move ) {
+	getCell( ply ).innerHTML = move;
 }
 
 function getCurrentMove() {
-	return getMove( currentHalfMoveIndex );
+	return getMove( currentPly );
 }
 
 function setCurrentMove( move ) {
-	setMove( currentHalfMoveIndex, move );
+	setMove( currentPly, move );
 }
 
 function currentMoveIsAtEnd() {
-	for ( let i = currentHalfMoveIndex; i < nbOfHalfMoves; ++i ) {
+	for ( let i = currentPly; i < nbOfPlies; ++i ) {
 		let m = getMove( i );
 		if ( m != "" ) {
 			return false;
@@ -36,7 +36,7 @@ function currentMoveIsAtEnd() {
 }
 
 function moveExist() {
-	for ( let i = 0; i < nbOfHalfMoves; ++i ) {
+	for ( let i = 0; i < nbOfPlies; ++i ) {
 		let m = getMove( i );
 		if ( m != "" ) {
 			return true;
@@ -45,18 +45,72 @@ function moveExist() {
 	return false;
 }
 
+function moveToPgn( move ) {
+	if ( move.length < 1 ) {
+		return "?";
+	}
+	
+	let result = move;
+	result = result.replaceAll( "S", "N" );
+	result = result.replaceAll( "L", "B" );
+	result = result.replaceAll( "T", "R" );
+	result = result.replaceAll( "D", "Q" );
+	return result;
+}
+
+function toPgn() {
+	let pgn = "[Event \"" + getStoreValueStr( "event", "?" ).trim() + "\"]\n";
+	pgn += "[Site \"" + getStoreValueStr( "site", "?" ).trim() + "\"]\n";
+	let dateStr = getStoreValueStr( "date", "" );
+	if ( dateStr.length < 1 ) {
+		dateStr = "????.??.??";
+	} else {
+		let d = new Date( dateStr );
+		dateStr = d.getFullYear() + ".";
+		dateStr += String( d.getMonth() + 1 ).padStart( 2, "0" ) + ".";
+		dateStr += String( d.getDate() ).padStart( 2, "0" );
+	}
+	pgn += "[Date \"" + dateStr + "\"]\n";
+	pgn += "[Round \"" + getStoreValueStr( "round", "?" ) + "\"]\n";
+	pgn += "[White \"" + getStoreValueStr( "white", "?" ).trim() + "\"]\n";
+	pgn += "[Black \"" + getStoreValueStr( "black", "?" ).trim() + "\"]\n";
+	let resultStr = getStoreValueStr( "result", "*" );
+	pgn += "[Result \"" + resultStr + "\"]\n";
+	pgn += "[WhiteElo \"" + getStoreValueStr( "white_elo", "?" ) + "\"]\n";
+	pgn += "[BlackElo \"" + getStoreValueStr( "black_elo", "?" ) + "\"]\n";
+	pgn += "[TimeControl \"" + getStoreValueStr( "time_control", "?" ).trim() + "\"]\n";
+	pgn += "\n";
+
+	let movesStr = getStoreValueStr( "moves", null );
+	if ( movesStr != null ) {
+		let moves = JSON.parse( movesStr );
+		for ( let i = 0; i < moves.length; ++i ) {
+			if ( ( i % 2 ) == 0 ) {
+				pgn += Math.floor( (i + 2) / 2 ) + ". ";
+			}
+			pgn += moveToPgn( moves[ i ] ) + " ";
+		}
+	}
+
+	if ( resultStr != "*" ) {
+		pgn += resultStr;
+	}
+
+	return pgn;
+}
+
 function focusCurrentMove() {
-	let cell = getCell( currentHalfMoveIndex );
+	let cell = getCell( currentPly );
 	cell.className = "moves_cell_focus";
 }
 
 function unfocusCurrentMove() {
-	let cell = getCell( currentHalfMoveIndex );
+	let cell = getCell( currentPly );
 	cell.className = "moves_cell";
 }
 
 function scrollToCurrentMove() {
-	let cell = getCell( currentHalfMoveIndex );
+	let cell = getCell( currentPly );
 	cell.scrollIntoView( false );
 }
 
@@ -74,11 +128,11 @@ function addRow( moveNum ) {
 }
 
 function addRows( cnt ) {
-	let startMove = (nbOfHalfMoves / 2) + 1;
+	let startMove = (nbOfPlies / 2) + 1;
 	for ( let i = startMove; i < startMove + cnt; ++i ) {
 		addRow( i );
 	}
-	nbOfHalfMoves += ( cnt * 2 );
+	nbOfPlies += ( cnt * 2 );
 }
 
 function deleteAllRows() {
@@ -89,8 +143,8 @@ function deleteAllRows() {
 function confirmMove() {
 	if ( getCurrentMove() != "" ) {
 		unfocusCurrentMove();
-		currentHalfMoveIndex++;
-		if ( currentHalfMoveIndex >= nbOfHalfMoves ) {
+		currentPly++;
+		if ( currentPly >= nbOfPlies ) {
 			addRows( 20 );
 		}
 		focusCurrentMove();
@@ -99,11 +153,11 @@ function confirmMove() {
 }
 
 function insertMove() {
-	let end = getMove( nbOfHalfMoves - 1 );
+	let end = getMove( nbOfPlies - 1 );
 	if ( end != "" ) {
 		addRows( 20 );
 	}
-	for ( let i = nbOfHalfMoves - 1; i > currentHalfMoveIndex; --i ) {
+	for ( let i = nbOfPlies - 1; i > currentPly; --i ) {
 		let tmp = getMove( i - 1 );
 		setMove( i, tmp );
 	}
@@ -115,13 +169,13 @@ function deleteMove() {
 		setCurrentMove( "" );
 		return;
 	}
-	for ( let i = currentHalfMoveIndex; i < nbOfHalfMoves - 2; ++i ) {
+	for ( let i = currentPly; i < nbOfPlies - 2; ++i ) {
 		let tmp = getMove( i + 1 );
 		setMove( i, tmp );
 	}
-	if ( currentHalfMoveIndex > 0 ) {
+	if ( currentPly > 0 ) {
 		unfocusCurrentMove();
-		currentHalfMoveIndex--;
+		currentPly--;
 		focusCurrentMove();
 		scrollToCurrentMove();
 	}
@@ -135,7 +189,7 @@ function updateEnabled() {
 	insert.disabled = currentMoveIsAtEnd();
 
 	let del = document.getElementById( "delete_button" );
-	del.disabled = ( !moveExist() && currentHalfMoveIndex == 0 );
+	del.disabled = ( !moveExist() && currentPly == 0 );
 }
 
 function updateHeader() {
@@ -147,18 +201,16 @@ function updateHeader() {
 	if ( black.length < 1 ) {
 		black = "Svart";
 	}
-	/*
 	let headerWhite = document.getElementById( "header_white_name" );
 	let headerBlack = document.getElementById( "header_black_name" );
 	headerWhite.innerHTML = white;
 	headerBlack.innerHTML = black
-	*/
 }
 
 function getStoreValueStr( key, defaultValue ) {
 	let store = window.sessionStorage;
 	let result = store.getItem( key );
-	if ( result == null ) {
+	if ( result == null || result.length < 1 ) {
 		result = defaultValue;
 	}
 	return result;
@@ -188,7 +240,7 @@ function gameSettings( show ) {
 		elements.white_elo.value = getStoreValueNum( "white_elo", null );
 		elements.black.value = getStoreValueStr( "black", "" );
 		elements.black_elo.value = getStoreValueNum( "black_elo", null );
-		elements.date.valueAsDate = getStoreValueStr( "date", new Date() );
+		elements.date.valueAsDate = getStoreValueStr( "date", null );
 		elements.site.value = getStoreValueStr( "site", "" );
 		elements.event.value = getStoreValueStr( "event", "" );
 		elements.round.value = getStoreValueNum( "round", null );
@@ -210,6 +262,12 @@ function newGame() {
 	store.clear();
 	deleteAllRows();
 	location.reload(); 
+}
+
+function exportGame() {
+	storeSettings();
+	let pgn = toPgn();
+	alert( pgn );
 }
 
 function handleButton( btnValue ) {
@@ -239,6 +297,10 @@ function handleButton( btnValue ) {
 			newGame();
 			break;
 
+		case "export":
+			exportGame();
+			break;
+
 		default:
 			let val = getCurrentMove();
 			val += btnValue;
@@ -247,8 +309,8 @@ function handleButton( btnValue ) {
 	}
 
 	updateEnabled();
-	setStoreValue( "currentHalfMoveIndex", currentHalfMoveIndex );
-	setStoreValue( "nbOfHalfMoves", nbOfHalfMoves );
+	setStoreValue( "currentPly", currentPly );
+	setStoreValue( "nbOfPlies", nbOfPlies );
 	storeMoves();
 }
 
@@ -259,31 +321,35 @@ function handleTableClick( target ) {
 	if ( cellIndex < 1 ) {
 		return;
 	}
-	let halfMoveIndex = ( rowIndex * 2 ) + ( cellIndex - 1 );
+	let ply = ( rowIndex * 2 ) + ( cellIndex - 1 );
 	unfocusCurrentMove();
-	currentHalfMoveIndex = halfMoveIndex;
+	currentPly = ply;
 	focusCurrentMove();
 	updateEnabled();
-	setStoreValue( "currentHalfMoveIndex", currentHalfMoveIndex );
+	setStoreValue( "currentPly", currentPly );
+}
+
+function storeSettings() {
+	let form = document.getElementById( "game_settings_form" );
+	let elements = form.elements;
+
+	setStoreValue( "white", elements.white.value );
+	setStoreValue( "white_elo", elements.white_elo.value );
+	setStoreValue( "black", elements.black.value );
+	setStoreValue( "black_elo", elements.black_elo.value );
+	setStoreValue( "date", elements.date.value );
+	setStoreValue( "site", elements.site.value );
+	setStoreValue( "event", elements.event.value );
+	setStoreValue( "round", elements.round.value );
+	setStoreValue( "time_control", elements.time_control.value );
+	setStoreValue( "result", elements.result.value );
 }
 
 function handleForm( event ) {
 	if ( event.preventDefault ) {
 		event.preventDefault();
 	}
-	let elements = event.target.elements;
-	
-	setStoreValue( "white", elements.white.value );
-	setStoreValue( "white_elo", elements.white_elo.value );
-	setStoreValue( "black", elements.black.value );
-	setStoreValue( "black_elo", elements.black_elo.value );
-	setStoreValue( "date", elements.date.valueAsDate );
-	setStoreValue( "site", elements.site.value );
-	setStoreValue( "event", elements.event.value );
-	setStoreValue( "round", elements.round.value );
-	setStoreValue( "time_control", elements.time_control.value );
-	setStoreValue( "result", elements.result.value );
-
+	storeSettings();
 	updateHeader();
 	gameSettings( false );
 }
@@ -291,7 +357,7 @@ function handleForm( event ) {
 function storeMoves() {
 	let moves = new Array();
 	let lastMove = -1;
-	for ( let i = 0; i < nbOfHalfMoves; ++i ) {
+	for ( let i = 0; i < nbOfPlies; ++i ) {
 		let m = getMove( i );
 		moves[ i ] = m;
 		if ( m != "" ) {
@@ -343,9 +409,9 @@ function init() {
 	updateHeader();
 	setupEventHandlers();
 
-	currentHalfMoveIndex = getStoreValueNum( "currentHalfMoveIndex", 0 );
-	let tmpNbOfHalfMoves = getStoreValueNum( "nbOfHalfMoves", 120 );
-	addRows( tmpNbOfHalfMoves / 2 );
+	currentPly = getStoreValueNum( "currentPly", 0 );
+	let tmpNbOfPlies = getStoreValueNum( "nbOfPlies", 120 );
+	addRows( tmpNbOfPlies / 2 );
 	restoreMoves();
 	focusCurrentMove();
 	scrollToCurrentMove();

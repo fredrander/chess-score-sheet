@@ -6,17 +6,19 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<body>
 		<div class="container_all">
+			<div id="header">
+				<div id="header_num">
+					#
+				</div>
+				<div id="header_white">
+					<div id="header_white_name">Vit</div>
+				</div>
+				<div id="header_black">
+					<div id="header_black_name">Svart</div>
+				</div>
+			</div>
 			<div id="moves">
 				<table id="moves_table">
-					<thead>
-						<tr>
-							<th>#</th>
-							<th class="moves_head_white">Vit</th>
-							<th class="moves_head_black">Svart</th>
-						</tr>
-						<tbody>
-						</tbody>
-					</thead>
 				</table>
 			</div>
 			<div id="input">
@@ -56,10 +58,10 @@
 					<button type="button" class="input_button">O-O-O</button>
 				</div>
 				<div class="input_group">
-					<button type="button" id="enter_button" data-value="enter">Enter</button>
-					<button type="button" id="insert_button" data-value="ins">Ins</button>
-					<button type="button" id="delete_button" data-value="del">Del</button>
 					<button type="button" id="game_button" data-value="game">Game...</button>
+					<button type="button" id="delete_button" data-value="del">Del</button>
+					<button type="button" id="insert_button" data-value="ins">Ins</button>
+					<button type="button" id="enter_button" data-value="enter">Enter</button>
 				</div>
 
 				<div id="game_settings">
@@ -133,6 +135,7 @@
 							<div class="game_group">
 								<div class="game_group_commands">
 									<button type="button" class="new_button" data-value="new">New...</button>
+									<button type="button" class="export_button" data-value="export">Export...</button>
 									<button type="submit" class="ok_button" data-value="ok">OK</button>
 								</div>
 							</div>

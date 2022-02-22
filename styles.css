@@ -8,6 +8,53 @@ html {
 	max-width: 640px;
 }
 
+#header {
+	width: 100%;
+	overflow: hidden;
+}
+
+#header_num {
+	width: 20%;
+	max-width: 20%;
+	float: left;
+	background-color: lightgrey;
+	color: black;
+	text-align: center;
+}
+
+#header_white {
+	width: 40%;
+	max-width: 40%;
+	float: left;
+	background-color: white;
+}
+
+#header_white_name {
+	color: black;
+	text-align: left;
+	text-overflow: ellipsis;
+	overflow-x: hidden;
+	white-space: nowrap;
+	padding: 0 2px 0 2px;
+	border: 1px solid;
+}
+
+#header_black {
+	width: 40%;
+	max-width: 40%;
+	float: left;
+	background-color: black;
+}
+
+#header_black_name {
+	color: white;
+	text-align: left;
+	text-overflow:ellipsis;
+	overflow-x: hidden;
+	white-space: nowrap;
+	padding: 1px 2px 1px 2px;
+}
+
 #moves {
 	margin-top: 2px;
 	margin-bottom: 8px;
@@ -20,23 +67,6 @@ html {
 #moves_table {
 	width: 100%;
 	border-collapse: collapse;
-}
-
-#moves_table th {
-	border: 1px solid;
-	border-bottom: 2px solid;
-	text-align: center;
-	border-color: black;
-}
-
-.moves_head_white {
-	color: black;
-	background-color: white;
-}
-
-.moves_head_black {
-	color: white;
-	background-color: black;
 }
 
 .moves_cell_num {
@@ -154,11 +184,16 @@ button {
 
 .game_group_commands {
 	float: center;
+	padding-top: 8px;
 }
 
 .ok_button {
 	background-color: #00EE00;
 	min-width: 40%;
+}
+
+.export_button {
+	background-color: #aaaaFF;
 }
 
 .new_button {
