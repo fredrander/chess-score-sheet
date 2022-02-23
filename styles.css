@@ -116,7 +116,7 @@ button {
 
 #enter_button {
 	background-color: #00EE00;
-	min-width: 40%;
+	min-width: 30%;
 }
 
 #enter_button:disabled,

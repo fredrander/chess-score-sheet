@@ -76,9 +76,18 @@ function toPgn() {
 	pgn += "[Black \"" + getStoreValueStr( "black", "?" ).trim() + "\"]\n";
 	let resultStr = getStoreValueStr( "result", "*" );
 	pgn += "[Result \"" + resultStr + "\"]\n";
-	pgn += "[WhiteElo \"" + getStoreValueStr( "white_elo", "?" ) + "\"]\n";
-	pgn += "[BlackElo \"" + getStoreValueStr( "black_elo", "?" ) + "\"]\n";
-	pgn += "[TimeControl \"" + getStoreValueStr( "time_control", "?" ).trim() + "\"]\n";
+	let whiteElo = getStoreValueStr( "white_elo", "?" );
+	if ( whiteElo != "?" ) {
+		pgn += "[WhiteElo \"" + whiteElo + "\"]\n";
+	}
+	let blackElo = getStoreValueStr( "black_elo", "?" );
+	if ( blackElo != "?" ) {
+		pgn += "[BlackElo \"" + blackElo + "\"]\n";
+	}
+	let timeControl = getStoreValueStr( "time_control", "?" ).trim();
+	if ( timeControl != "?" ) {
+		pgn += "[TimeControl \"" + timeControl + "\"]\n";
+	}
 	pgn += "\n";
 
 	let movesStr = getStoreValueStr( "moves", null );
@@ -254,7 +263,7 @@ function gameSettings( show ) {
 }
 
 function newGame() {
-	let confirmNew = confirm( "Delete current game and start a new?" );
+	let confirmNew = confirm( "Vill du radera aktuellt parti och skapa ett nytt?" );
 	if ( !confirmNew ) {
 		return;
 	}
@@ -267,7 +276,17 @@ function newGame() {
 function exportGame() {
 	storeSettings();
 	let pgn = toPgn();
-	alert( pgn );
+	
+	let subject = getStoreValueStr( "white", "Unknown" ).trim() + " vs. ";
+	subject += getStoreValueStr( "black", "Unknown" ).trim() + ", ";
+	subject += getStoreValueStr( "date", "????-??-??" ).trim();
+	let pgnElement = document.createElement( "a" );
+	pgnElement.setAttribute( "href", "mailto:?body=" + encodeURIComponent( pgn ) + "&subject=" + encodeURIComponent( subject ) );
+	pgnElement.style.display = "none";
+  	document.body.appendChild( pgnElement );
+	pgnElement.click();
+
+	document.body.removeChild( pgnElement );
 }
 
 function handleButton( btnValue ) {
