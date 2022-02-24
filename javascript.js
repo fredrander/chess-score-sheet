@@ -49,12 +49,11 @@ function moveToPgn( move ) {
 	if ( move.length < 1 ) {
 		return "?";
 	}
-	
 	let result = move;
-	result = result.replaceAll( "S", "N" );
-	result = result.replaceAll( "L", "B" );
-	result = result.replaceAll( "T", "R" );
-	result = result.replaceAll( "D", "Q" );
+	result = result.replace( /S/g, "N" );
+	result = result.replace( /L/g, "B" );
+	result = result.replace( /T/g, "R" );
+	result = result.replace( /D/g, "Q" );
 	return result;
 }
 
@@ -262,6 +261,12 @@ function gameSettings( show ) {
 	}
 }
 
+function gameSettingsActive() {
+	let settings = document.getElementById( "game_settings" );
+	let visible = settings.offsetWidth > 0 && settings.offsetHeight > 0;
+	return visible;
+}
+
 function newGame() {
 	let confirmNew = confirm( "Vill du radera aktuellt parti och skapa ett nytt?" );
 	if ( !confirmNew ) {
@@ -280,12 +285,13 @@ function exportGame() {
 	let subject = getStoreValueStr( "white", "Unknown" ).trim() + " vs. ";
 	subject += getStoreValueStr( "black", "Unknown" ).trim() + ", ";
 	subject += getStoreValueStr( "date", "????-??-??" ).trim();
-	let pgnElement = document.createElement( "a" );
-	pgnElement.setAttribute( "href", "mailto:?body=" + encodeURIComponent( pgn ) + "&subject=" + encodeURIComponent( subject ) );
-	pgnElement.style.display = "none";
-  	document.body.appendChild( pgnElement );
-	pgnElement.click();
 
+	let mailLink = "mailto:?body=" + encodeURIComponent( pgn ) + "&subject=" + encodeURIComponent( subject );
+	let pgnElement = document.createElement( "a" );
+	pgnElement.setAttribute( "href", mailLink );
+	pgnElement.style.display = "none";
+	document.body.appendChild( pgnElement );
+	pgnElement.click();
 	document.body.removeChild( pgnElement );
 }
 
@@ -476,11 +482,10 @@ function setupEventHandlers() {
 		gameForm.addEventListener( "submit", handleForm );
 	}
 
-	document.addEventListener( "keypress", function( event ) {
-		handleButton( event.key );
-	});
 	document.addEventListener( "keydown", function( event ) {
-		handleButton( event.key );
+		if ( !gameSettingsActive() ) {
+			handleButton( event.key );
+		}
 	});
 }
 
