@@ -289,10 +289,43 @@ function exportGame() {
 	document.body.removeChild( pgnElement );
 }
 
+function moveFocus( offset ) {
+	unfocusCurrentMove();
+	currentPly += offset;
+	if ( currentPly < 0 ) {
+		currentPly += nbOfPlies;
+	}
+	if ( currentPly >= nbOfPlies ) {
+		currentPly -= nbOfPlies;
+	}
+	focusCurrentMove();
+	scrollToCurrentMove();
+}
+
+function isValidMoveButton( btn ) {
+	let valid = [
+		"a", "b", "c", "d", "e", "f", "g", "h", 
+		"1", "2", "3", "4", "5", "6", "7", "8", 
+		"S", "L", "T", "D", "K", 
+		"N", "B", "R", "Q", "K", 
+		"x", "+", "=", "#", "O", "-",
+	];
+
+	for ( let i = 0; i < valid.length; ++i ) {
+		if ( btn == valid[ i ] ) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
 function handleButton( btnValue ) {
+
 	switch ( btnValue ) {
 	
 		case "enter":
+		case "Enter":
 			confirmMove();
 			break;
 
@@ -301,9 +334,26 @@ function handleButton( btnValue ) {
 			break;
 
 		case "del":
+		case "Backspace":
 			deleteMove();
 			break;
 
+		case "ArrowRight":
+			moveFocus( 1 );
+			break;
+
+		case "ArrowLeft":
+			moveFocus( -1 );
+			break;
+
+		case "ArrowDown":
+			moveFocus( 2 );
+			break;
+
+		case "ArrowUp":
+			moveFocus( -2 );
+			break;
+				
 		case "game":
 			gameSettings( true );
 			break;
@@ -321,6 +371,9 @@ function handleButton( btnValue ) {
 			break;
 
 		default:
+			if ( !isValidMoveButton( btnValue ) ) {
+				return;
+			}
 			let val = getCurrentMove();
 			val += btnValue;
 			setCurrentMove( val );
@@ -422,6 +475,13 @@ function setupEventHandlers() {
 	} else {
 		gameForm.addEventListener( "submit", handleForm );
 	}
+
+	document.addEventListener( "keypress", function( event ) {
+		handleButton( event.key );
+	});
+	document.addEventListener( "keydown", function( event ) {
+		handleButton( event.key );
+	});
 }
 
 function init() {

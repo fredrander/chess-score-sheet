@@ -102,21 +102,13 @@ html {
 button {
 	text-align: center;
 	color: black;
+	background-color: white;
 	border: none;
 	border-radius: 2px;
 	box-shadow: 1px 1px 1px black;
 	line-height: 2.5;
 	min-width: 10%;
 	font-weight: normal;
-}
-
-.input_button {
-	background-color: #eeeeee;
-}
-
-.input_button_takes {
-	min-width: 16%;
-	background-color: #eeeeee;
 }
 
 #enter_button {
