@@ -494,7 +494,7 @@ function init() {
 	setupEventHandlers();
 
 	currentPly = getStoreValueNum( "currentPly", 0 );
-	let tmpNbOfPlies = getStoreValueNum( "nbOfPlies", 120 );
+	let tmpNbOfPlies = getStoreValueNum( "nbOfPlies", 80 );
 	addRows( tmpNbOfPlies / 2 );
 	restoreMoves();
 	focusCurrentMove();
