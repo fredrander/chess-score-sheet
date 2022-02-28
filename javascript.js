@@ -314,7 +314,7 @@ function isValidMoveButton( btn ) {
 		"1", "2", "3", "4", "5", "6", "7", "8", 
 		"S", "L", "T", "D", "K", 
 		"N", "B", "R", "Q", "K", 
-		"x", "+", "=", "#", "O", "-",
+		"x", "+", "=", "#", "O", "-", "O-O", "O-O-O"
 	];
 
 	for ( let i = 0; i < valid.length; ++i ) {
