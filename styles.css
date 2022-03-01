@@ -24,20 +24,24 @@ height: 100%;
 	width: 20%;
 	max-width: 20%;
 	float: left;
-	color: black;
+}
+
+#header_num_content {
+	color: white;
 	text-align: center;
-	background-color: lightgrey;
+	background-color: black;
+	padding: 1px 2px 1px 2px;
 }
 
 #header_white {
 	width: 40%;
 	max-width: 40%;
 	float: left;
-	background-color: white;
 }
 
 #header_white_name {
 	color: black;
+	background-color: white;
 	text-align: left;
 	text-overflow: ellipsis;
 	overflow-x: hidden;
@@ -50,11 +54,11 @@ height: 100%;
 	width: 40%;
 	max-width: 40%;
 	float: left;
-	background-color: black;
 }
 
 #header_black_name {
 	color: white;
+	background-color: black;
 	text-align: left;
 	text-overflow:ellipsis;
 	overflow-x: hidden;
